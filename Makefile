@@ -1,8 +1,8 @@
 N?=10000000
 PROCS?=4
 REPEAT?=10
-TYPE?=Naive
-PROGRAM?=naive_Ssend+Recv
+TYPE?=Bag
+PROGRAM?=bag_Rsend+Irecv
 
 target:
 	@rm -f $(PROGRAM)

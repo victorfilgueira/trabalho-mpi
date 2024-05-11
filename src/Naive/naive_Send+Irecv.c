@@ -49,11 +49,12 @@ int main(int argc, char *argv[])
         if (meu_ranque == 0)
         {
             MPI_Status status;
+            MPI_Request request;
             for (int i = 1; i < num_procs; i++)
             {
                 int recv_cont;
-                MPI_Irecv(&recv_cont, 1, MPI_INT, i, 0, MPI_COMM_WORLD, &status);
-                MPI_Wait(&status, MPI_STATUS_IGNORE);
+                MPI_Irecv(&recv_cont, 1, MPI_INT, i, 0, MPI_COMM_WORLD, &request);
+                MPI_Wait(&request, &status);
                 total += recv_cont;
             }
             total += cont;
