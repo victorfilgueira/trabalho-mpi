@@ -48,7 +48,8 @@ int main(int argc, char *argv[])
     if (meu_ranque == 0)
     {
         // Para todo processo nós enviamos uma fatia inicial para ser calculado.
-        // Dentro do for é checado se nossa fatia inicial estouro o valor a ser calculado (n)
+        //
+        // Dentro do for é checado se nossa fatia inicial (inicio) estoura o valor a ser calculado (n)
         //  -> isso ocorre em casos que queremos calcular um n em que a divisão dele entre os processos pedidos fique impossível
         //  -> exemplo: número de processos >= 4 e n = 500003
         //      -> nesse caso vamos enviar os seguintes:
