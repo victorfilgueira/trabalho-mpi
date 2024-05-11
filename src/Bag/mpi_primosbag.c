@@ -47,9 +47,25 @@ int main(int argc, char *argv[])
     /* Envia pedaços com TAMANHO números para cada processo */
     if (meu_ranque == 0)
     {
-        for (dest = 1, inicio = 3; dest < num_procs && inicio < n; dest++, inicio += TAMANHO)
-        {
-            MPI_Send(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
+        // Para todo processo nós enviamos uma fatia inicial para ser calculado.
+        // Dentro do for é checado se nossa fatia inicial estouro o valor a ser calculado (n)
+        //  -> isso ocorre em casos que queremos calcular um n em que a divisão dele entre os processos pedidos fique impossível
+        //  -> exemplo: número de processos >= 4 e n = 500003
+        //      -> nesse caso vamos enviar os seguintes:
+        //           processo 1 recebe n = 3
+        //           processo 2 recebe n = 500003
+        //           processo 3 receberia n = 1000003, que fica maior que o n que queremos calcular
+        //                      daí nesse caso nós enviamos a tag 99 para finalizar esse processo e qualquer outro próximo
+        //                      e somamos +1 no contador do stop, para que o while do ranque = 0 consiga finalizar de forma correta
+        inicio = 3;
+        for (dest = 1; dest < num_procs; dest++) {
+            if (inicio <= n) {
+                MPI_Send(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
+                inicio += TAMANHO
+            } else {
+                MPI_Send(&inicio, 1, MPI_INT, dest, 99, MPI_COMM_WORLD);
+                stop++;
+            }
         }
         /* Fica recebendo as contagens parciais de cada processo */
         while (stop < (num_procs - 1))
