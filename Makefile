@@ -4,7 +4,7 @@ REPEAT?=10
 TYPE?=Naive
 PROGRAM?=naive_Ssend+Recv
 
-main:
+target:
 	@rm -f $(PROGRAM)
 	@mpicc -o $(PROGRAM) ./src/$(TYPE)/$(PROGRAM).c -lm
 	@seq $(REPEAT) | xargs -I{} mpirun -n $(PROCS) --oversubscribe ./$(PROGRAM) $N
