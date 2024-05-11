@@ -59,13 +59,17 @@ int main(int argc, char *argv[])
         //                      daí nesse caso nós enviamos a tag 99 para finalizar esse processo e qualquer outro próximo
         //                      e somamos +1 no contador do stop, para que o while do ranque = 0 consiga finalizar de forma correta
         inicio = 3;
-        for (dest = 1; dest < num_procs; dest++) {
+        for (dest = 1; dest < num_procs; dest++)
+        {
             MPI_Request request;
 
-            if (inicio <= n) {
+            if (inicio <= n)
+            {
                 MPI_Isend(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD, &request);
                 inicio += TAMANHO;
-            } else {
+            }
+            else
+            {
                 MPI_Isend(&inicio, 1, MPI_INT, dest, 99, MPI_COMM_WORLD, &request);
                 stop++;
             }
@@ -110,8 +114,8 @@ int main(int argc, char *argv[])
     {
         t_final = MPI_Wtime();
         total += 1; /* Acrescenta o 2, que é primo */
-        printf("Quant. de primos entre 1 e %d: %d \n", n, total);
-        printf("Tempo de execucao: %1.3f \n", t_final - t_inicial);
+        printf("quantidade de primos entre 1 e n, %d,", total);
+        printf("tempo de execucao, %1.3f \n", t_final - t_inicial);
     }
     /* Finaliza o programa */
     MPI_Barrier(MPI_COMM_WORLD);
